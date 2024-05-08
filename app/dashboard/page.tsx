@@ -13,6 +13,11 @@ export default async function ProtectedPage() {
     data: { user },
   } = await supabase.auth.getUser();
   console.log("user id: " +  user?.id)
+
+  if (!user) {
+    return redirect("/login");
+  }
+  
   //const { data, error } = await supabase.rpc('hello_world') // WORKS
   
   //console.log(data)
@@ -38,9 +43,7 @@ export default async function ProtectedPage() {
   console.log(dat.data);
 
   //console.log(data.data)
-  if (!user) {
-    return redirect("/login");
-  }
+
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
       <div className="w-full">
