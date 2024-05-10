@@ -31,6 +31,7 @@ export default function onboarding() {
       console.log('Hostel No:', hostelNo);
       console.log('Room No:', RoomNo);
       await OnboardUser(hostelNo, RoomNo);
+
       return router.push("/dashboard")
     };
     return (<>
@@ -58,8 +59,6 @@ export default function onboarding() {
       </label>
       <button type="submit">Submit</button>
     </form>
-    
-    
     
     
     </>)
