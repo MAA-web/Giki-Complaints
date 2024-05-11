@@ -35,6 +35,11 @@ export default async function ProtectedPage() {
   //  {sql_command: ``}
   //)
   console.log(data)
+
+  const d = await supabase.rpc('dynamic_sql', {
+    sql_command: `insert into users (user_id, name) values ('${user?.id}', 'Ali')`,
+  });
+  console.log(d)
   //console.log('data: ' + data.error)
 
   const dat = await supabase.rpc('execute_query', 
