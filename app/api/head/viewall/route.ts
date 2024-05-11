@@ -9,11 +9,27 @@ export async function POST(req: Request) {
         data: { user },
       } = await supabase.auth.getUser();
     console.log(user)
-    if (user) {
+
+    const dat = await supabase.rpc('execute_query', 
+    {
+      query_text : `select * from roles where uid = '${user?.id}'`,
+  
+    })
+    
+    console.log(dat.data[0].result.role);
+
+    if (((dat.data[0].result.role) == "head") && user) {
         const payload = await req.json();
+
         console.log(payload);
+
+        let data = await supabase.rpc('execute_query', 
+        {
+        query_text : `select * from cases`,
+    
+        })
         return NextResponse.json({
-          payload
+          data
         });
     } else {
         return NextResponse.json({

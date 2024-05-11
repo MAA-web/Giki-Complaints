@@ -8,6 +8,7 @@ export default function onboarding() {
 
     const [hostelNo, setHostelNo] = useState('');
     const [RoomNo, setRoomNo] = useState('');
+    const [PhoneNo, setPhoneNo] = useState('');
 
     async function OnboardUser(h_no: string, r_no: string) {
       const response = await fetch('/api/onboarding',{
@@ -15,7 +16,7 @@ export default function onboarding() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
+        body: JSON.stringify({ // TOD the goddamn names
           'hostelNo': h_no,
           'roomNo': r_no,
         }),
@@ -55,6 +56,16 @@ export default function onboarding() {
           value={RoomNo}
           onChange={(event) => setRoomNo(event.target.value)}
           placeholder="Enter your room number"
+        />
+      </label>
+      <label>
+      Phone number:
+        <input
+          className="text-black"
+          type="text"
+          value={PhoneNo}
+          onChange={(event) => setPhoneNo(event.target.value)}
+          placeholder="Enter your Phone number"
         />
       </label>
       <button type="submit">Submit</button>
