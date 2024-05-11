@@ -11,7 +11,15 @@ export async function POST(req: Request) {
     console.log(user)
     if (user) {
         const payload = await req.json();
+        try {
+          const data = await supabase.rpc('dynamic_sql', {
+            sql_command: `insert into submitted_complaints (uid, role) values ('${user?.id}', 'user')`,
+          });
+        } catch (error) {
+          
+        }
         console.log(payload);
+
         return NextResponse.json({
           payload
         });
