@@ -6,19 +6,18 @@ import { useState } from "react";
 export default function onboarding() {
     const router = useRouter();
 
-    const [hostelNo, setHostelNo] = useState('');
+    const [Name, setName] = useState('');
     const [RoomNo, setRoomNo] = useState('');
     const [PhoneNo, setPhoneNo] = useState('');
 
-    async function OnboardUser(h_no: string, r_no: string) {
+    async function OnboardUser(Name: string) {
       const response = await fetch('/api/onboarding',{
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ // TOD the goddamn names
-          'hostelNo': h_no,
-          'roomNo': r_no,
+        body: JSON.stringify({ // TODO the goddamn names
+          Name
         }),
       });
       const data = await response.json()
@@ -29,9 +28,9 @@ export default function onboarding() {
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
       event.preventDefault();
       // Call API or perform action with hostelNo and RoomNo here
-      console.log('Hostel No:', hostelNo);
-      console.log('Room No:', RoomNo);
-      await OnboardUser(hostelNo, RoomNo);
+      // console.log('Hostel No:', hostelNo);
+      // console.log('Room No:', RoomNo);
+      await OnboardUser(Name);
 
       return router.push("/dashboard")
     };
@@ -39,16 +38,16 @@ export default function onboarding() {
     
     <form onSubmit={handleSubmit}>
       <label>
-        Hostel No:
+        Name:
         <input
           className="text-black"
           type="text"
-          value={hostelNo}
-          onChange={(event) => setHostelNo(event.target.value)}
+          value={Name}
+          onChange={(event) => setName(event.target.value)}
           placeholder="Enter your hostel number"
         />
       </label>
-      <label>
+      {/* <label>
         Room No:
         <input
           className="text-black"
@@ -67,7 +66,7 @@ export default function onboarding() {
           onChange={(event) => setPhoneNo(event.target.value)}
           placeholder="Enter your Phone number"
         />
-      </label>
+      </label> */}
       <button type="submit">Submit</button>
     </form>
     

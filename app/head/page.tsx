@@ -3,11 +3,13 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Payment, columns } from "@/components/columns"
+import RoleButton from "@/components/RoleButton";
+import AuthButton from "@/components/AuthButton";
  
 
 export default async function Head() {
   const supabase = createClient();
-
+  let response
   async function getData(): Promise<Payment[]> {
     response = await supabase.rpc('execute_query', 
     {
@@ -20,10 +22,10 @@ export default async function Head() {
       description: item.result.description,
       hostel_number: item.result.hostel_number,
       room_number: item.result.room_number,
-      complainant_name: item.result.complainant_name,
-      complainant_id: item.result.complainant_id,
+      complaintant_name: item.result.complaintant_name,
+      complaintant_id: item.result.complaintant_id,
       phone_number: item.result.phone_number,
-      status: "pending", // Add the status property if needed
+      status: item.result.status, // Add the status property if needed
       time: item.result.time,
   }));
   return data;
@@ -43,46 +45,35 @@ export default async function Head() {
   });
   
   console.log(data[0].result.role);
-  let response;
-  async function view_all() {
-    response = await supabase.rpc('execute_query', 
-        {
-          query_text : `select * from submitted_complaints`,
-    
-        })
-    console.log(response.data)
-  
-  }
-    await view_all();
 
-  if (data[0].result.role === "user") {
+  let user_role = await data[0].result.role
+
+  if (user_role === "user") {
     return (
       <>
         This page is for the heads only :)
       </>
     );
-  } else if (data[0].result.role === "head") {
+  } else if (user_role === "head") {
     const data = await getData()
     return (
       <>
+      <div className="flex-1 w-full flex flex-col gap-20 items-center">
+      <div className="w-full">
+        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+          <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
+            <RoleButton role={user_role} />
+            <AuthButton />
+          </div>
+        </nav>
+      </div>
         Welcome, head!
         <div className="container mx-auto py-10">
           <DataTable columns={columns} data={data} />
+          
         </div>
-        {false && response.data.map((item, index) => (
-          <div key={index} className="bg-white shadow-md rounded-md p-4 mb-4">
-            <h2 className="text-lg font-bold mb-2">{item.result.title}</h2>
-            <p className="text-gray-600">{item.result.description}</p>
-            <div className="text-sm text-gray-500">
-              <p>Hostel Number: {item.result.hostel_number}</p>
-              <p>Room Number: {item.result.room_number}</p>
-              <p>Complainant Name: {item.result.complainant_name}</p>
-              <p>Complainant ID: {item.result.complainant_id}</p>
-              <p>Phone Number: {item.result.phone_number}</p>
-              <p>Time: {item.result.time}</p>
-            </div>
-          </div>
-        ))}
+
+        </div>
       </>
     );
   } else {

@@ -1,8 +1,8 @@
 'use client'
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
- 
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,19 +11,34 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useEffect } from "react"
 
 export type Payment = {
+    complaint_id: string
     title: string
     description: string
     hostel_number: string
     room_number: string
-    complainant_name: string
-    complainant_id: string
+    complaintant_name: string
+    complaintant_id: string
     phone_number: string
     status: "pending" | "processing" | "success" | "failed"
     time: string
   }
-  
+
+  async function handleChange(complaint_id:string, value:string) {
+    return fetch('/api/head/change',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        complaint_id,
+        value
+      }),
+    });
+  }
+
   export const columns: ColumnDef<Payment>[] = [
     { 
         accessorKey: "complaint_id",
@@ -56,13 +71,13 @@ export type Payment = {
         
     },
     {
-        accessorKey: "complainant_name",
-        header: "Complainant Name",
+        accessorKey: "complaintant_name",
+        header: "Complaintant Name",
         
     },
     {
-        accessorKey: "complainant_id",
-        header: "Complainant ID",
+        accessorKey: "complaintant_id",
+        header: "Complaintant ID",
         
     },
     {
@@ -77,9 +92,10 @@ export type Payment = {
     },
     {
         id: "actions",
-        cell: ({ row }) => {
+        cell: async ({ row }) => {
           const payment = row.original
-     
+          
+          
           return (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -91,13 +107,24 @@ export type Payment = {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
-                  onClick={() => navigator.clipboard.writeText(payment.complainant_id)}
+                  onClick={() => navigator.clipboard.writeText(payment.complaintant_id)}
                 >
                   Copy Complainant ID
                 </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel>Change Status</DropdownMenuLabel>
                 <DropdownMenuItem
-                  onClick={() => {}}
-                >Change status</DropdownMenuItem>
+                  onClick={() => handleChange(payment.complaint_id, "pending")}
+                >pending</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleChange(payment.complaint_id, "processing")}
+                >processing</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleChange(payment.complaint_id, "success")}
+                >success</DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => handleChange(payment.complaint_id, "failed")}
+                >failed</DropdownMenuItem>
                 <DropdownMenuSeparator />
               </DropdownMenuContent>
             </DropdownMenu>

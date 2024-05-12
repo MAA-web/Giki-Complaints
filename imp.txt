@@ -1,0 +1,25 @@
+  //const { data, error } = await supabase.rpc('hello_world') // WORKS
+  
+  //console.log(data)
+  //const data1  = await supabase.rpc('execute_dynamic_sql', {sql_command: 'select * from \'hi\''}) // WORKS
+
+  // const data = await supabase.rpc('dynamic_sql', {
+  //     sql_command: `insert into roles (uid, role) values ('${user?.id}', 'user')`,
+  // });
+
+  // //const data1 = await supabase.rpc(
+  // //  'dynamic_sql',
+  // //  {sql_command: ``}
+  // //)
+  // console.log(data)
+  // let dt = await supabase.rpc('dynamic_sql', {
+  //   sql_command: `insert into users (user_id, name) values ('${user?.id}', 'Ali')`,
+  // });
+  // console.log(dt)
+
+
+      const dat = await supabase.rpc('execute_query', 
+    {
+      query_text : `select * from roles where uid = '${user?.id}'`,
+  
+    })

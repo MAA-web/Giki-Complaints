@@ -8,6 +8,7 @@ import RoleButton from "@/components/RoleButton";
 import { Button } from "@/components/ui/button"
 import Link from "next/link";
 import Lists from "@/components/lists";
+import { PostgrestSingleResponse } from "@supabase/supabase-js";
 
 export default async function ProtectedPage() {
   const supabase = createClient();
@@ -20,29 +21,10 @@ export default async function ProtectedPage() {
   if (!user) {
     return redirect("/login");
   }
-  
-  //const { data, error } = await supabase.rpc('hello_world') // WORKS
-  
-  //console.log(data)
-  //const data1  = await supabase.rpc('execute_dynamic_sql', {sql_command: 'select * from \'hi\''}) // WORKS
 
-  const data = await supabase.rpc('dynamic_sql', {
-      sql_command: `insert into roles (uid, role) values ('${user?.id}', 'user')`,
-  });
-
-  //const data1 = await supabase.rpc(
-  //  'dynamic_sql',
-  //  {sql_command: ``}
-  //)
-  console.log(data)
-
-  var d = await supabase.rpc('dynamic_sql', {
-    sql_command: `insert into users (user_id, name) values ('${user?.id}', 'Ali')`,
-  });
-  console.log(d)
 
   const response = await supabase.auth.getSession()
-  d = await response.data.session?.user.id;
+  let d : string | undefined = await response.data.session?.user.id;
   console.log("@@@@@@@@@@@@@@@@@@@: " + d)
 
   //console.log('data: ' + data.error)
@@ -77,6 +59,11 @@ export default async function ProtectedPage() {
       <Button asChild variant="outline">
         <Link href="/issue">Issues</Link>
       </Button>
+      <Button asChild variant="outline">
+        <Link href="/head">Current Issues</Link>
+      </Button>
+
+
       <Lists data={[
         { result: { role: 'hi', uid: 'hi' } },    
         { result: { role: 'test', uid: 'test' } },  {
