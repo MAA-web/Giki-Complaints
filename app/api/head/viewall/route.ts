@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-
-
 import { createClient } from "@/utils/supabase/server";
 
 export async function POST(req: Request) {
@@ -25,7 +23,7 @@ export async function POST(req: Request) {
 
         let data = await supabase.rpc('execute_query', 
         {
-        query_text : `select * from cases`,
+          query_text : `select * from submitted_complaints`,
     
         })
         return NextResponse.json({
