@@ -2,75 +2,81 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-
-export default function onboarding() {
+export default function Onboarding() {
     const router = useRouter();
 
-    const [Name, setName] = useState('');
-    const [RoomNo, setRoomNo] = useState('');
-    const [PhoneNo, setPhoneNo] = useState('');
+    const [name, setName] = useState('');
+    // const [roomNo, setRoomNo] = useState('');
+    // const [phoneNo, setPhoneNo] = useState('');
 
-    async function OnboardUser(Name: string) {
-      const response = await fetch('/api/onboarding',{
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ // TODO the goddamn names
-          Name
-        }),
-      });
-      const data = await response.json()
-
-      console.log(data);
+    async function onboardUser(name: string) {
+      try {
+        const response = await fetch('/api/onboarding', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name }),
+        });
+        const data = await response.json();
+        console.log(data);
+        router.push("/dashboard");
+      } catch (error) {
+        console.error("Error on onboarding:", error);
+      }
     }
 
-    const handleSubmit = async (event: { preventDefault: () => void; }) => {
+    const handleSubmit = (event: { preventDefault: () => void; }) => {
       event.preventDefault();
-      // Call API or perform action with hostelNo and RoomNo here
-      // console.log('Hostel No:', hostelNo);
-      // console.log('Room No:', RoomNo);
-      await OnboardUser(Name);
-
-      return router.push("/dashboard")
+      onboardUser(name);
     };
-    return (<>
-    
-    <form onSubmit={handleSubmit}>
-      <label>
-        Name:
-        <input
-          className="text-black"
-          type="text"
-          value={Name}
-          onChange={(event) => setName(event.target.value)}
-          placeholder="Enter your hostel number"
-        />
-      </label>
-      {/* <label>
-        Room No:
-        <input
-          className="text-black"
-          type="text"
-          value={RoomNo}
-          onChange={(event) => setRoomNo(event.target.value)}
-          placeholder="Enter your room number"
-        />
-      </label>
-      <label>
-      Phone number:
-        <input
-          className="text-black"
-          type="text"
-          value={PhoneNo}
-          onChange={(event) => setPhoneNo(event.target.value)}
-          placeholder="Enter your Phone number"
-        />
-      </label> */}
-      <button type="submit">Submit</button>
-    </form>
-    
-    
-    </>)
 
+    return (
+      <div className="container mx-auto">
+        <h1 className="text-3xl font-bold mb-6 text-center">Welcome to Onboarding</h1>
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+          <div className="mb-4">
+            <label htmlFor="name" className="block text-sm font-semibold">Name:</label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              placeholder="Enter your name"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              required
+            />
+          </div>
+          {/* <div className="mb-4">
+            <label htmlFor="roomNo" className="block text-sm font-semibold">Room No:</label>
+            <input
+              id="roomNo"
+              type="text"
+              value={roomNo}
+              onChange={(event) => setRoomNo(event.target.value)}
+              placeholder="Enter your room number"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="phoneNo" className="block text-sm font-semibold">Phone Number:</label>
+            <input
+              id="phoneNo"
+              type="text"
+              value={phoneNo}
+              onChange={(event) => setPhoneNo(event.target.value)}
+              placeholder="Enter your phone number"
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div> */}
+          <button type="submit" className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 ease-in-out">
+            Submit
+          </button>
+
+          <p>If you have already done this then no need just Submit something random</p>
+        </form>
+      </div>
+    );
 }

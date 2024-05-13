@@ -19,14 +19,14 @@ export default async function issue() {
   return (
     
     <>
-        <div className="w-full">
+        {/* <div className="w-full">
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-            {/* <RoleButton role={r} /> */}
+            {<RoleButton role={r} />}
             <AuthButton />
           </div>
         </nav>
-      </div>
+      </div> */}
       <NForm></NForm>
     </>
   )

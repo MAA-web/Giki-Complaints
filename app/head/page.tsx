@@ -9,6 +9,8 @@ import AuthButton from "@/components/AuthButton";
 import { DataTableSub } from "@/components/dataTablesSub";
 import Inputs from "./input";
 import Assigned from "./Assigned";
+import { uSubheadColumns, uSubheads } from "./userColumns";
+import MakeSub from "./makeSub";
  
 
 export default async function Head() {
@@ -50,6 +52,20 @@ export default async function Head() {
     return data;
   }
 
+  async function getData2(): Promise<uSubheads[]> {
+    response = await supabase.rpc('execute_query',
+    {
+      query_text : `select * from roles`,
+  
+    })
+    const data: uSubheads[] = response.data.map((item: any) => ({
+      uid: item.result.uid,
+      name: item.result.name,
+      role: item.result.role
+    }));
+    return data;
+  }
+
   //const { data: { user } } = await supabase.auth.getUser();
   const res = await supabase.auth.getSession()
   const d = await res.data.session?.user
@@ -78,18 +94,19 @@ export default async function Head() {
 
     const data = await getData()
     const data1 = await getData1()
+    const data2 = await getData2()
 
     return (
       <>
       <div className="flex-1 w-full flex flex-col gap-2 items-center">
-      <div className="w-full">
+      {/* <div className="w-full">
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
             <RoleButton role={user_role} />
             <AuthButton />
           </div>
         </nav>
-      </div>
+      </div> */}
         Welcome, head!
         <Inputs />
         <Assigned />
@@ -97,8 +114,13 @@ export default async function Head() {
         <div className="container mx-auto py-10">
           <DataTable columns={columns} data={data} />
           <br />
+          ----------- Sub Heads -----------
           <DataTableSub columns={SubheadColumns} data={data1} />
-          
+          <br />
+          ----------- All Users -----------
+          <DataTableSub columns={uSubheadColumns} data={data2} />
+          <br />
+          <MakeSub></MakeSub>
         </div>
     
         </div>

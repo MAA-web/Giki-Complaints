@@ -23,12 +23,12 @@ export default async function Index() {
 
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center text-white bg-black">
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+      {/* <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
         <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           
           {isSupabaseConnected && <AuthButton />}
         </div>
-      </nav>
+      </nav> */}
 
       <Button asChild variant="outline">
         <Link href="/dashboard">Dashboard</Link>

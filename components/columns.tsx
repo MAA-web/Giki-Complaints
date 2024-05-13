@@ -1,8 +1,8 @@
 'use client'
 import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,7 +67,7 @@ export type Payment = {
     },    
     {
         accessorKey: "status",
-        header: "Status",
+        header: 'Status'
         
     },
     {

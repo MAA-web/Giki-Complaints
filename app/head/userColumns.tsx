@@ -13,16 +13,16 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { useEffect } from "react"
 
-  export type Subheads = {
+  export type uSubheads = {
     uid: string
     name: string
-    hostel: string
+    role: string
   }
 
-  export const SubheadColumns: ColumnDef<Subheads>[] = [
+  export const uSubheadColumns: ColumnDef<uSubheads>[] = [
     { 
         accessorKey: "uid",
-        header: "Sub Head id",
+        header: "User id",
         
     },
     { 
@@ -31,10 +31,10 @@ import { useEffect } from "react"
         
     },
     {
-      accessorKey: "hostel",
-      header: "Hostel no",
+      accessorKey: "role",
+      header: "Role",
       
-    },        
+    },    
     
     {
         id: "actions",
@@ -55,7 +55,7 @@ import { useEffect } from "react"
                 <DropdownMenuItem
                   onClick={() => navigator.clipboard.writeText(payment.uid)}
                 >
-                  Copy Sub Head ID
+                  Copy User ID
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
               </DropdownMenuContent>

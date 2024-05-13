@@ -47,14 +47,14 @@ export default async function ProtectedPage() {
 
   return (
     <div className="flex-1 w-full flex flex-col gap-20 items-center text-white bg-black">
-      <div className="w-full">
+      {/* <div className="w-full">
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
             <RoleButton role={r} />
             <AuthButton />
           </div>
         </nav>
-      </div>
+      </div> */}
 
       <Button asChild variant="outline">
         <Link href="/issue">Issues</Link>
