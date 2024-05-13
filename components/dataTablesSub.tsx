@@ -39,7 +39,7 @@ interface DataTableProps<TData, TValue> {
     data: TData[]
   }
    
-  export function DataTable<TData, TValue>({
+  export function DataTableSub<TData, TValue>({
     columns,
     data,
   }: DataTableProps<TData, TValue>) {
@@ -71,44 +71,7 @@ interface DataTableProps<TData, TValue> {
   //   // Add your logic here
   // };
 
-  const onClickHandler = async () => {
-    
-    try {
-      const res = await fetch('/api/head/getAssignees', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      })
-
-      const data = await res.json()
-      console.log(data.hi.data)
-
-      //await setAssignees(data.hi.data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
-
-  const handleButtonClick1 = () => {
-    fetch('/api/head/getAssignees', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-    .then(hi => hi.json())
-    //.then(data => setAssignees(data))
-    .then(response => console.log(response.data));
-  }
-
-
-  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedItem(event.target.value);
-  };
     //@ts-ignore
-    const uniqueValues = data.map(item => ({ title: item.title, id: item.complaint_id }));
-
 
     return (
         <>

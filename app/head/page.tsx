@@ -3,15 +3,20 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import { Payment, columns } from "@/components/columns"
+import { SubheadColumns, Subheads } from "./subhead";
 import RoleButton from "@/components/RoleButton";
 import AuthButton from "@/components/AuthButton";
+import { DataTableSub } from "@/components/dataTablesSub";
+import Inputs from "./input";
+import Assigned from "./Assigned";
  
 
 export default async function Head() {
   const supabase = createClient();
   let response
+
   async function getData(): Promise<Payment[]> {
-    response = await supabase.rpc('execute_query', 
+    response = await supabase.rpc('execute_query',
     {
       query_text : `select * from submitted_complaints`,
   
@@ -31,6 +36,20 @@ export default async function Head() {
   return data;
   }
 
+  async function getData1(): Promise<Subheads[]> {
+    response = await supabase.rpc('execute_query',
+    {
+      query_text : `select * from roles where role = 'subhead'`,
+  
+    })
+    const data: Subheads[] = response.data.map((item: any) => ({
+      uid: item.result.uid,
+      name: item.result.name,
+      hostel: item.result.hostel,
+    }));
+    return data;
+  }
+
   //const { data: { user } } = await supabase.auth.getUser();
   const res = await supabase.auth.getSession()
   const d = await res.data.session?.user
@@ -47,6 +66,7 @@ export default async function Head() {
   console.log(data[0].result.role);
 
   let user_role = await data[0].result.role
+  
 
   if (user_role === "user") {
     return (
@@ -55,10 +75,13 @@ export default async function Head() {
       </>
     );
   } else if (user_role === "head") {
+
     const data = await getData()
+    const data1 = await getData1()
+
     return (
       <>
-      <div className="flex-1 w-full flex flex-col gap-20 items-center">
+      <div className="flex-1 w-full flex flex-col gap-2 items-center">
       <div className="w-full">
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
@@ -68,11 +91,16 @@ export default async function Head() {
         </nav>
       </div>
         Welcome, head!
+        <Inputs />
+        <Assigned />
+        
         <div className="container mx-auto py-10">
           <DataTable columns={columns} data={data} />
+          <br />
+          <DataTableSub columns={SubheadColumns} data={data1} />
           
         </div>
-
+    
         </div>
       </>
     );

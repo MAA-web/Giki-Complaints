@@ -62,17 +62,9 @@ export default async function ProtectedPage() {
       <Button asChild variant="outline">
         <Link href="/head">Current Issues</Link>
       </Button>
-
-
-      <Lists data={[
-        { result: { role: 'hi', uid: 'hi' } },    
-        { result: { role: 'test', uid: 'test' } },  {
-          result: { role: 'user', uid: 'c4150655-8724-4ebc-9e54-0b660c8f973c' }
-        },
-        {
-          result: { role: 'head', uid: '5f5d6bcf-ba11-4b70-881d-ecc4f2cfa022' }
-        }
-      ]} />
+      <Button asChild variant="outline">
+        <Link href="/yourcases">Your Cases</Link>
+      </Button>
 
       <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
         <p>

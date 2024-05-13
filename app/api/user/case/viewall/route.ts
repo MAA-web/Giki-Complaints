@@ -1,21 +1,20 @@
 import { NextResponse } from "next/server";
-
-
 import { createClient } from "@/utils/supabase/server";
 
-// this api will give back users complaints in the past
-
 export async function POST(req: Request) {
-    const supabase = createClient();
+  const supabase = createClient();
     const {
         data: { user },
       } = await supabase.auth.getUser();
-    console.log(user)
+
     if (user) {
-        const payload = await req.json();
-        console.log(payload);
+      let dat
+        dat = await supabase.rpc('execute_query', {
+          query_text: `select * from submitted_complaints where complaintant_id = '${user.id}'`,
+        });
+
         return NextResponse.json({
-          payload
+          dat
         });
     } else {
         return NextResponse.json({

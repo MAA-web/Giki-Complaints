@@ -27,7 +27,17 @@ export type Payment = {
   }
 
   async function handleChange(complaint_id:string, value:string) {
-    return fetch('/api/head/change',{
+    fetch('/api/head/deleteComp',{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        complaint_id,
+      }),
+    });
+
+    fetch('/api/head/change',{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -107,9 +117,9 @@ export type Payment = {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem
-                  onClick={() => navigator.clipboard.writeText(payment.complaintant_id)}
+                  onClick={() => navigator.clipboard.writeText(payment.complaint_id)}
                 >
-                  Copy Complainant ID
+                  Copy Complaint ID
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuLabel>Change Status</DropdownMenuLabel>
